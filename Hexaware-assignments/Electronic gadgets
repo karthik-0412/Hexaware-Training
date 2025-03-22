@@ -202,3 +202,65 @@ FROM Orders
 WHERE OrderDate BETWEEN '2025-03-02' AND '2025-03-05';  
 
 -- Task 4
+
+use techshop;
+
+SELECT c.CustomerID, c.FirstName, c.LastName, c.Email
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+WHERE o.OrderID IS NULL;
+
+SELECT COUNT(*) AS total_products
+FROM Products;
+
+SELECT SUM(o.TotalAmount) AS total_revenue
+FROM Orders o;
+
+select * from products;
+
+SELECT AVG(od.Quantity) AS avg_quantity_ordered
+FROM OrderDetails od
+JOIN Products p ON od.ProductID = p.ProductID
+WHERE p.Description = 'High-performance laptop';
+
+SELECT c.CustomerID, c.FirstName, c.LastName, SUM(o.TotalAmount) AS total_spent
+FROM Customers c
+JOIN Orders o ON c.CustomerID = o.CustomerID
+WHERE c.CustomerID = 6
+GROUP BY c.CustomerID, c.FirstName, c.LastName;
+
+SELECT c.CustomerID, c.FirstName, c.LastName, COUNT(o.OrderID) AS order_count
+FROM Customers c
+JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerID, c.FirstName, c.LastName
+ORDER BY order_count DESC
+LIMIT 1;
+
+SELECT p.Description AS category, SUM(od.Quantity) AS total_quantity_ordered
+FROM OrderDetails od
+JOIN Products p ON od.ProductID = p.ProductID
+GROUP BY p.Description
+ORDER BY total_quantity_ordered DESC
+LIMIT 1;
+
+select * from products;
+
+SELECT c.CustomerID, c.FirstName, c.LastName, SUM(od.Quantity * p.Price) AS total_spent
+FROM Customers c
+JOIN Orders o ON c.CustomerID = o.CustomerID
+JOIN OrderDetails od ON o.OrderID = od.OrderID
+JOIN Products p ON od.ProductID = p.ProductID
+WHERE p.Description = 'Latest model smartphone'
+GROUP BY c.CustomerID, c.FirstName, c.LastName
+ORDER BY total_spent DESC
+LIMIT 1;
+
+SELECT AVG(o.TotalAmount) AS avg_order_value
+FROM Orders o;
+
+SELECT c.CustomerID, c.FirstName, c.LastName, COUNT(o.OrderID) AS total_orders
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerID, c.FirstName, c.LastName;
+
+
